@@ -47,8 +47,8 @@ const GalleryScreen = () => {
       console.log(_length);
 
       let items = [];
-      var l = dataSource.length;
-      for (var i = l; i < _length + l; i++) {
+
+      for (var i = 0; i < _length; i++) {
         let obj = {
           id: i,
           src: data[i].urls.small,

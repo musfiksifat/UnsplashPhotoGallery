@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import {IconButton, FAB} from 'react-native-paper';
 import {StyleSheet, View, TouchableOpacity, Modal} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {shareImageDetails} from '../functions/FullImageFunctions.js';
 
 const FullImageModal = props => {
+  const [isWaiting, setWaiting] = useState(false);
   return (
     <Modal
       transparent={true}
@@ -17,6 +19,18 @@ const FullImageModal = props => {
           style={styles.fullImageStyle}
           source={{uri: props.imageuri}}
           resizeMode={FastImage.resizeMode.contain}
+        />
+
+        <FAB
+          style={styles.shareButtonStyle}
+          disabled={isWaiting}
+          loading={isWaiting}
+          icon="share-outline"
+          onPress={async () => {
+            setWaiting(true);
+            await shareImageDetails(props.fileURL);
+            setWaiting(false);
+          }}
         />
       </View>
     </Modal>

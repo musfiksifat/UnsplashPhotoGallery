@@ -38,12 +38,39 @@ const GalleryScreen = () => {
     });
   }, []);
 
+  const fetchMore = async => {
+    fetchNewPhotos(pageNo).then(data => {
+      setPageNo(pageNo + 1);
+      console.log('page increment');
+      console.log(data);
+      const _length = data.length;
+      console.log(_length);
+
+      let items = [];
+      var l = dataSource.length;
+      for (var i = l; i < _length + l; i++) {
+        let obj = {
+          id: i,
+          src: data[i].urls.small,
+          download: data[i].links.download,
+          likes: data[i].likes,
+        };
+        items.push(obj);
+      }
+      console.log('repeat');
+      console.log(items);
+      setDataSource([...dataSource, ...items]);
+      //   setDataSource(items);
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <Text style={styles.titleStyle}>Unsplash Photo Gallery</Text>
         <FlatList
           data={dataSource}
+          onEndReached={fetchMore}
           renderItem={({item}) => (
             <View style={styles.imageContainerStyle}>
               <TouchableOpacity

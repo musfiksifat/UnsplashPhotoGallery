@@ -1,0 +1,10 @@
+// required dependency
+npm install react-native-reanimated 
+npm install react-native-gesture-handler
+npm install react-native-screens 
+npm install react-native-safe-area-context
+npm install @react-native-community/masked-view
+
+//ui
+npm install --save react-native-vector-icons
+npm install react-native-paper --force

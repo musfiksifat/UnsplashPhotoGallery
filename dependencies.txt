@@ -8,3 +8,10 @@ npm install @react-native-community/masked-view
 //ui
 npm install --save react-native-vector-icons
 npm install react-native-paper --force
+
+//fast image
+npm i react-native-fast-image
+//share
+npm i react-native-share --save
+//file access
+npm i rn-fetch-blob

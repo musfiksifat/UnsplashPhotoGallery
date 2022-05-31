@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '98%',
+    zIndex: 2,
   },
   modelStyle: {
     flex: 1,

@@ -2,7 +2,10 @@ import React, {useState} from 'react';
 import {IconButton, FAB} from 'react-native-paper';
 import {StyleSheet, View, TouchableOpacity, Modal} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {shareImageDetails} from '../functions/FullImageFunctions.js';
+import {
+  checkPermission,
+  shareImageDetails,
+} from '../functions/FullImageFunctions.js';
 
 const FullImageModal = props => {
   const [isWaiting, setWaiting] = useState(false);
@@ -15,6 +18,23 @@ const FullImageModal = props => {
         props.showModalFunction(!props.modalVisibleStatus, '');
       }}>
       <View style={styles.modelStyle}>
+        <View style={styles.topIconBlock}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => {
+              props.showModalFunction(!props.modalVisibleStatus, '');
+            }}>
+            <IconButton icon="close-octagon" size={31} color="grey" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={async () => {
+              await checkPermission(props.fileURL);
+            }}>
+            <IconButton icon="download" size={33} color="gray" />
+          </TouchableOpacity>
+        </View>
+
         <FastImage
           style={styles.fullImageStyle}
           source={{uri: props.imageuri}}

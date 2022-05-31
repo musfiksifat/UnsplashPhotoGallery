@@ -11,10 +11,15 @@ import {
 } from 'react-native';
 //import FastImage
 import FastImage from 'react-native-fast-image';
+
+import FullImageModal from './../components/FullImageModal';
 import {fetchNewPhotos} from './../requests/fetchNewPhotos';
 
 const GalleryScreen = () => {
+  const [imageuri, setImageuri] = useState('');
+  const [modalVisibleStatus, setModalVisibleStatus] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  const [fileURL, setFileURL] = useState();
   const [pageNo, setPageNo] = useState(1);
   const [loading, setLoading] = useState(true);
 
@@ -69,35 +74,52 @@ const GalleryScreen = () => {
     });
   };
 
+  const showModalFunction = (visible, imageURL) => {
+    setImageuri(imageURL);
+    setModalVisibleStatus(visible);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <Text style={styles.titleStyle}>Unsplash Photo Gallery</Text>
-        <FlatList
-          data={dataSource}
-          onEndReached={fetchMore}
-          renderItem={({item}) => (
-            <View style={styles.imageContainerStyle}>
-              <TouchableOpacity
-                key={item.id}
-                style={{flex: 1}}
-                onPress={() => {}}>
-                <FastImage
-                  style={styles.imageStyle}
-                  source={{
-                    uri: item.src,
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-          numColumns={3}
-          keyExtractor={(item, index) => index.toString()}
+      {modalVisibleStatus ? (
+        <FullImageModal
+          imageuri={imageuri}
+          fileURL={fileURL}
+          showModalFunction={showModalFunction}
+          modalVisibleStatus={modalVisibleStatus}
         />
-        {loading ? (
-          <ActivityIndicator color="black" style={{marginLeft: 8}} />
-        ) : null}
-      </View>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.titleStyle}>Unsplash Photo Gallery</Text>
+          <FlatList
+            data={dataSource}
+            onEndReached={fetchMore}
+            renderItem={({item}) => (
+              <View style={styles.imageContainerStyle}>
+                <TouchableOpacity
+                  key={item.id}
+                  style={{flex: 1}}
+                  onPress={() => {
+                    showModalFunction(true, item.src);
+                    setFileURL(item.src.toString());
+                  }}>
+                  <FastImage
+                    style={styles.imageStyle}
+                    source={{
+                      uri: item.src,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+            numColumns={3}
+            keyExtractor={(item, index) => index.toString()}
+          />
+          {loading ? (
+            <ActivityIndicator color="black" style={{marginLeft: 8}} />
+          ) : null}
+        </View>
+      )}
     </SafeAreaView>
   );
 };

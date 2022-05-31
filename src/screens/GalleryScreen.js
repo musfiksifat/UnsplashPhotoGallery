@@ -7,17 +7,19 @@ import {
   TouchableOpacity,
   FlatList,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 //import FastImage
 import FastImage from 'react-native-fast-image';
-
 import {fetchNewPhotos} from './../requests/fetchNewPhotos';
 
 const GalleryScreen = () => {
   const [dataSource, setDataSource] = useState([]);
   const [pageNo, setPageNo] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     fetchNewPhotos(1).then(data => {
       setPageNo(2);
       const _length = data.length;
@@ -35,10 +37,12 @@ const GalleryScreen = () => {
       console.log('first');
       console.log(items);
       setDataSource(items);
+      setLoading(false);
     });
   }, []);
 
   const fetchMore = async => {
+    setLoading(true);
     fetchNewPhotos(pageNo).then(data => {
       setPageNo(pageNo + 1);
       console.log('page increment');
@@ -61,6 +65,7 @@ const GalleryScreen = () => {
       console.log(items);
       setDataSource([...dataSource, ...items]);
       //   setDataSource(items);
+      setLoading(false);
     });
   };
 
@@ -89,6 +94,9 @@ const GalleryScreen = () => {
           numColumns={3}
           keyExtractor={(item, index) => index.toString()}
         />
+        {loading ? (
+          <ActivityIndicator color="black" style={{marginLeft: 8}} />
+        ) : null}
       </View>
     </SafeAreaView>
   );

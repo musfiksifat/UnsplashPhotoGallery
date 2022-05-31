@@ -79,13 +79,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.2)',
   },
-  downloadButtonStyle: {
-    width: 25,
-    height: 25,
-    top: 250,
-    right: 20,
-    position: 'absolute',
-  },
   shareButtonStyle: {
     justifyContent: 'center',
     alignItems: 'center',

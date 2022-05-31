@@ -15,10 +15,11 @@ const shareImageDetails = async imagesPath => {
       return resp.readFile('base64');
     })
     .then(base64Data => {
+      // here's base64 encoded image
       var imageUrl = 'data:image/png;base64,' + base64Data;
       let shareImage = {
-        title: '123', //string
-        message: 'Description ' + 'details' + ' http://beparr.com/', //string
+        title: 'shared', //string
+        message: 'Description ' + 'details',
         url: imageUrl,
       };
       Share.open(shareImage)
@@ -67,7 +68,6 @@ const downloadImage = url => {
   let options = {
     fileCache: true,
     addAndroidDownloads: {
-      // Related to the Android only
       useDownloadManager: true,
       notification: true,
       path:
@@ -82,11 +82,9 @@ const downloadImage = url => {
   config(options)
     .fetch('GET', image_URL)
     .then(res => {
-      // Showing alert after successful downloading
       console.log('res -> ', JSON.stringify(res));
       alert('Image Downloaded Successfully.');
     });
 };
-// ends download part
 
 export {downloadImage, checkPermission, shareImageDetails};

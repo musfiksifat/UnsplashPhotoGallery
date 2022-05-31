@@ -6,7 +6,6 @@ import {
   View,
   TouchableOpacity,
   FlatList,
-  ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
 //import FastImage
@@ -39,8 +38,6 @@ const GalleryScreen = () => {
         };
         items.push(obj);
       }
-      console.log('first');
-      console.log(items);
       setDataSource(items);
       setLoading(false);
     });
@@ -50,10 +47,7 @@ const GalleryScreen = () => {
     setLoading(true);
     fetchNewPhotos(pageNo).then(data => {
       setPageNo(pageNo + 1);
-      console.log('page increment');
-      console.log(data);
       const _length = data.length;
-      console.log(_length);
 
       let items = [];
 
@@ -66,8 +60,6 @@ const GalleryScreen = () => {
         };
         items.push(obj);
       }
-      console.log('repeat');
-      console.log(items);
       setDataSource([...dataSource, ...items]);
       //   setDataSource(items);
       setLoading(false);
